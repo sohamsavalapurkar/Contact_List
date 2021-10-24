@@ -2,19 +2,18 @@ package standAloneApp.backend.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.UUID;
 
 @Entity
 public class Date {
     @Id
     private String dateID;
-    private String contactID;
     private String dateType;
     private String date;
 
-    public Date(String contactID, String dateType, String date) {
+    public Date(String dateType, String date) {
         this.setDateID(UUID.randomUUID().toString());
-        this.contactID = contactID;
         this.dateType = dateType;
         this.date = date;
     }
@@ -25,14 +24,6 @@ public class Date {
 
     public void setDateID(String dateID) {
         this.dateID = dateID;
-    }
-
-    public String getContactID() {
-        return contactID;
-    }
-
-    public void setContactID(String contactID) {
-        this.contactID = contactID;
     }
 
     public String getDateType() {

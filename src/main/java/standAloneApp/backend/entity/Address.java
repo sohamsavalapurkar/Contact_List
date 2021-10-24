@@ -2,22 +2,22 @@ package standAloneApp.backend.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.UUID;
 
 @Entity
 public class Address {
     @Id
     private String addressId;
-    private String contactId;
     private String addressType;
     private String address;
     private String city;
     private String state;
     private int zip;
 
-    public Address(String contactId, String addressType, String address, String city, String state, int zip) {
+
+    public Address(String addressType, String address, String city, String state, int zip) {
         this.setAddressId(UUID.randomUUID().toString());
-        this.contactId = contactId;
         this.addressType = addressType;
         this.address = address;
         this.city = city;
@@ -31,14 +31,6 @@ public class Address {
 
     public void setAddressId(String addressId) {
         this.addressId = addressId;
-    }
-
-    public String getContactId() {
-        return contactId;
-    }
-
-    public void setContactId(String contactId) {
-        this.contactId = contactId;
     }
 
     public String getAddressType() {
@@ -80,4 +72,6 @@ public class Address {
     public void setZip(int zip) {
         this.zip = zip;
     }
+
+
 }

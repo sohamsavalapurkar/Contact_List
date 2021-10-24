@@ -1,7 +1,7 @@
 package standAloneApp.backend.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -11,6 +11,42 @@ public class Contact {
     private String Fname;
     private String Mname;
     private String Lname;
+
+    public Set<Address> getAddress() {
+        return address;
+    }
+
+    public void setAddress(Set<Address> address) {
+        this.address = address;
+    }
+
+    public Set<Date> getDate() {
+        return date;
+    }
+
+    public void setDate(Set<Date> date) {
+        this.date = date;
+    }
+
+    public Set<Phone> getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Set<Phone> phone) {
+        this.phone = phone;
+    }
+
+    @OneToMany(cascade= CascadeType.ALL)
+    @JoinColumn(name="contact_id")
+    private Set<Address> address;
+
+    @OneToMany(cascade= CascadeType.ALL)
+    @JoinColumn(name="contact_id")
+    private Set<Date> date;
+
+    @OneToMany(cascade= CascadeType.ALL)
+    @JoinColumn(name="contact_id")
+    private Set<Phone> phone;
 
     public Contact(String fname, String mname, String lname) {
         this.setContactId(UUID.randomUUID().toString());
