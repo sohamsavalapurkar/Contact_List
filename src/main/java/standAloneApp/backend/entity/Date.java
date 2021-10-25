@@ -12,6 +12,10 @@ public class Date {
     private String dateType;
     private String date;
 
+    public Date() {
+
+    }
+
     public Date(String dateType, String date) {
         this.setDateID(UUID.randomUUID().toString());
         this.dateType = dateType;

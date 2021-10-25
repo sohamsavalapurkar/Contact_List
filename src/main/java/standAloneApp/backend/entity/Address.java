@@ -15,6 +15,9 @@ public class Address {
     private String state;
     private String zip;
 
+    public Address() {
+
+    }
 
     public Address(String addressType, String address, String city, String state, String zip) {
         this.setAddressId(UUID.randomUUID().toString());

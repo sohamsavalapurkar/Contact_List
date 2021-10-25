@@ -13,6 +13,10 @@ public class Phone {
     private String areaCode;
     private String number;
 
+    public Phone() {
+
+    }
+
     public Phone(String phoneType, String areaCode, String number) {
         this.setPhoneId(UUID.randomUUID().toString());
         this.phoneType = phoneType;

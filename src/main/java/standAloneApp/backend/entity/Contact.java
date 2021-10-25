@@ -12,6 +12,10 @@ public class Contact {
     private String Mname;
     private String Lname;
 
+    public Contact() {
+
+    }
+
     public Set<Address> getAddress() {
         return address;
     }
