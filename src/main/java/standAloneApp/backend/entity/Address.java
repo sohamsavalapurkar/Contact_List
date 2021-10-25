@@ -13,10 +13,10 @@ public class Address {
     private String address;
     private String city;
     private String state;
-    private int zip;
+    private String zip;
 
 
-    public Address(String addressType, String address, String city, String state, int zip) {
+    public Address(String addressType, String address, String city, String state, String zip) {
         this.setAddressId(UUID.randomUUID().toString());
         this.addressType = addressType;
         this.address = address;
@@ -65,11 +65,11 @@ public class Address {
         this.state = state;
     }
 
-    public int getZip() {
+    public String getZip() {
         return zip;
     }
 
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 
