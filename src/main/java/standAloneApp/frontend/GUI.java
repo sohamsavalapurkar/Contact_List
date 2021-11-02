@@ -2,6 +2,7 @@ package standAloneApp.frontend;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import standAloneApp.backend.entity.Address;
 import standAloneApp.backend.entity.Contact;
 import standAloneApp.backend.service.ContactService;
 
@@ -13,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Component
@@ -233,7 +235,7 @@ public class GUI implements ActionListener{
                     int row = target.getSelectedRow();
                     int column = 0;
                     JOptionPane.showMessageDialog(null, table.getValueAt(row, column)); // get the value of a row and column.
-
+                    System.out.println(contact);
                 }
             });
 

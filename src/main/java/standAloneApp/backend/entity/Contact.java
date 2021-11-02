@@ -40,15 +40,15 @@ public class Contact {
         this.phone = phone;
     }
 
-    @OneToMany(cascade= CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,cascade= CascadeType.ALL)
     @JoinColumn(name="contact_id")
     private Set<Address> address;
 
-    @OneToMany(cascade= CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,cascade= CascadeType.ALL)
     @JoinColumn(name="contact_id")
     private Set<Date> date;
 
-    @OneToMany(cascade= CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,cascade= CascadeType.ALL)
     @JoinColumn(name="contact_id")
     private Set<Phone> phone;
 
