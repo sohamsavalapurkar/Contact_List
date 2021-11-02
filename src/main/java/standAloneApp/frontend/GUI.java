@@ -15,13 +15,21 @@ import java.util.List;
 
 @Component
 public class GUI implements ActionListener{
+    private JFrame frame;
+    private JTextField textField;
+    private JTextField textField_1;
+    private JTextField textField_2;
+
     JFrame f = new JFrame();
-    JFrame librarian, searchResults;
-    JButton login, loginSelect, searchButton, issueBook, returnBook, addBook, addMultipleBook, addUser, addMultipleUser, showUserDetails, issuedBook, returnedBook, addedBook, addedUser, logout;
-    JTextField loginField, searchBox, regId, bookId, bookName, authorName, numberOfCopies, userName;
+    JFrame contact, searchResults;
+    JButton login, addContact, searchButton, showContacts, addAddress, insertContact, addMultipleBook, addUser, addMultipleUser, showUserDetails, issuedBook, returnedBook, addedBook, addedUser, logout;
+    JLabel blankLabel;
+
+    JTextField searchBox, zipCode, firstName, middleName, lastName, address, phone, city, state;
     JPasswordField passwordField;
-    JComboBox searchMenu, accessLevel;
+    JComboBox searchMenu, phoneMenu;
     String[] access = {"Admin", "Teacher", "Student"};
+    JPanel panel;
 
     @Autowired
     ContactService contactService;
@@ -41,10 +49,9 @@ public class GUI implements ActionListener{
     }
 
     private void mainPage() {
-
         f.setLayout(null);
 
-        JLabel title = new JLabel("Library Management");
+        JLabel title = new JLabel("Contacts");
         title.setSize(1000, 200);
         title.setFont(new Font(title.getFont().getName(), Font.BOLD, Math.min(30, title.getHeight())));
         title.setHorizontalAlignment(JLabel.CENTER);
@@ -54,80 +61,233 @@ public class GUI implements ActionListener{
         searchBox.setSize(800, 30);
         int x = (f.getWidth()-searchBox.getWidth())/2;
         searchBox.setLocation(x-50, 250);
+
         searchButton = new JButton("Search");
         searchButton.setSize(250, 30);
         searchButton.setLocation(x+850, 250);
+        searchButton.addActionListener(this);
 
+        addContact = new JButton("Add Contact");
+        addContact.setSize(250, 30);
+        addContact.setLocation(x+850, 100);
+        addContact.addActionListener(this);
 
-        String menu[] = {"Search By Book ID", "Search By Title", "Search By Author"};
-        searchMenu = new JComboBox(menu);
-        searchMenu.setSize(170, 30);
-        searchMenu.setLocation(x-250, 250);
-
-        loginSelect = new JButton("Login");
-        loginSelect.setSize(250, 30);
-        loginSelect.setLocation(x+850, 100);
-
-        List<Contact> temp = new ArrayList<>();
-
-        temp = contactService.getContacts();
-        for(int i=0; i<15; i++) {
-            System.out.println(temp.get(i).getFname());
-        }
+        showContacts = new JButton("Show all Contacts");
+        showContacts.setSize(250, 30);
+        showContacts.setLocation(x+850, 400);
+        showContacts.addActionListener(this);
 
         f.add(title);
-        f.add(loginSelect);
-        f.add(searchMenu);
+        f.add(addContact);
         f.add(searchBox);
         f.add(searchButton);
+        f.add(showContacts);
         f.setVisible(true);
+
     }
 
-    private void loginPage() {
-        f.setLayout(null);
-        JLabel title = new JLabel("Librarian Login");
-        title.setSize(1000, 200);
-        title.setFont(new Font(title.getFont().getName(), Font.BOLD, Math.min(30, title.getHeight())));
-        title.setHorizontalAlignment(JLabel.CENTER);
-        title.setLocation((f.getWidth()-title.getWidth())/2, 50);
-        JLabel loginLabel = new JLabel("Login ID", SwingConstants.CENTER);
-        loginLabel.setSize(100, 30);
-        JLabel passwordLabel = new JLabel("Password", SwingConstants.CENTER);
-        passwordLabel.setSize(100, 30);
-        loginField = new JTextField();
-        loginField.setSize(300, 30);
-        int x = (f.getWidth()-loginField.getWidth())/2;
-        loginField.setLocation(x, 300);
-        loginLabel.setLocation((x-100), 300);
-        passwordField = new JPasswordField();
-        passwordField.setSize(300, 30);
-        x = (f.getWidth()-passwordField.getWidth())/2;
-        passwordField.setLocation(x,400);
-        passwordLabel.setLocation((x-100), 400);
-        login = new JButton("Login");
-        login.setSize(250,30);
-        login.setLocation((f.getWidth()-login.getWidth())/2, 500);
-        login.addActionListener(this);
-        f.add(title);
-        f.add(loginLabel);
-        f.add(loginField);
-        f.add(passwordLabel);
-        f.add(passwordField);
-        f.add(login);
-        f.setVisible(true);
+    public void addContactPage() {
+        contact = new JFrame();
+        contact.setSize(800,600);
+        contact.setLayout(new GridLayout(12,1));
+
+        JLabel firstNameLabel = new JLabel("First Name", SwingConstants.CENTER);
+        JLabel middleNameLabel = new JLabel("Middle Name", SwingConstants.CENTER);
+        JLabel lastNameLabel = new JLabel("Last Name", SwingConstants.CENTER);
+        JLabel addressLabel = new JLabel("Address", SwingConstants.CENTER);
+        JLabel cityLabel = new JLabel("City", SwingConstants.CENTER);
+        JLabel stateLabel = new JLabel("State", SwingConstants.CENTER);
+        JLabel zipCodeLabel = new JLabel("Zip Code", SwingConstants.CENTER);
+
+        JLabel phoneLabel = new JLabel("Phone", SwingConstants.CENTER);
+
+        JPanel j = new JPanel();
+        j.setLayout(new GridLayout(1,3));
+        firstName = new JTextField();
+        blankLabel = new JLabel("",SwingConstants.CENTER);
+        j.add(firstNameLabel);
+        j.add(firstName);
+        j.add(blankLabel);
+        contact.add(j);
+
+        /*int x = (contact.getWidth()-firstName.getWidth())/2;
+        firstName.setLocation(x,100);
+        firstNameLabel.setSize(100,30);
+        firstNameLabel.setLocation((x-100), 100);*/
+
+        j = new JPanel();
+        j.setLayout(new GridLayout(1,3));
+        middleName = new JTextField();
+        blankLabel = new JLabel("",SwingConstants.CENTER);
+        middleName.setSize(300, 30);
+        j.add(middleNameLabel);
+        j.add(middleName);
+        j.add(blankLabel);
+        contact.add(j);
+
+
+        /*x = (contact.getWidth()-middleName.getWidth())/2;
+        middleName.setLocation(x, 200);
+        middleNameLabel.setSize(100,30);
+        middleNameLabel.setLocation((x-100), 200);*/
+
+        j = new JPanel();
+        j.setLayout(new GridLayout(1,3));
+        lastName = new JTextField();
+        blankLabel = new JLabel("",SwingConstants.CENTER);
+        lastName.setSize(300, 30);
+        j.add(lastNameLabel);
+        j.add(lastName);
+        j.add(blankLabel);
+        contact.add(j);
+
+        /*x = (contact.getWidth()-lastName.getWidth())/2;
+        lastName.setLocation(x, 300);
+        lastNameLabel.setSize(100,30);
+        lastNameLabel.setLocation((x-100), 300);*/
+
+        j = new JPanel();
+        j.setLayout(new GridLayout(1,3));
+        address = new JTextField();
+        address.setSize(300, 100);
+
+        j.add(addressLabel);
+        j.add(address);
+
+        String menu[] = {"Home", "Work", "Other"};
+        searchMenu = new JComboBox(menu);
+
+        j.add(searchMenu);
+
+        contact.add(j);
+       /*x = (contact.getWidth()-numberOfCopies.getWidth())/2;
+        numberOfCopies.setLocation(x, 400);
+        numberOfCopiesLabel.setSize(100,30);
+        numberOfCopiesLabel.setLocation((x-100), 400);*/
+
+        j = new JPanel();
+        j.setLayout(new GridLayout(1,3));
+        city = new JTextField();
+        blankLabel = new JLabel("",SwingConstants.CENTER);
+        j.add(cityLabel);
+        j.add(city);
+        j.add(blankLabel);
+        contact.add(j);
+
+        j = new JPanel();
+        j.setLayout(new GridLayout(1,3));
+        state = new JTextField();
+        blankLabel = new JLabel("",SwingConstants.CENTER);
+        j.add(stateLabel);
+        j.add(state);
+        j.add(blankLabel);
+        contact.add(j);
+
+        j = new JPanel();
+        j.setLayout(new GridLayout(1,3));
+        zipCode = new JTextField();
+        j.add(zipCodeLabel);
+        j.add(zipCode);
+        addAddress = new JButton("Add Address");
+        j.add(addAddress);
+        contact.add(j);
+
+        j = new JPanel();
+        j.setLayout(new GridLayout(1,3));
+        phone = new JTextField();
+        phone.setSize(300, 100);
+        j.add(phoneLabel);
+        j.add(phone);
+        String phoneM[] = {"Home", "Work", "Other"};
+        phoneMenu = new JComboBox(menu);
+        j.add(phoneMenu);
+        contact.add(j);
+
+        j = new JPanel();
+        j.setLayout(new GridLayout(1,1));
+        insertContact = new JButton("Add Contact");
+        j.add(insertContact);
+        contact.add(j);
+
+        /*j.add(firstName);
+        j.add(firstNameLabel);
+        j.add(middleName);
+        j.add(middleNameLabel);
+        j.add(lastName);
+        j.add(lastNameLabel);
+        j.add(numberOfCopies);
+        j.add(numberOfCopiesLabel);
+
+        JPanel j1 = new JPanel();
+        j1.setLayout(new BoxLayout(j1, BoxLayout.X_AXIS));
+        j1.add(firstName);
+        j1.add(firstNameLabel);
+        j1.add(middleName);
+        j1.add(middleNameLabel);
+        j1.add(lastName);
+        j1.add(lastNameLabel);
+        j1.add(numberOfCopies);
+        j1.add(numberOfCopiesLabel);
+        contact.add(j);
+        contact.add(j1);*/
+        contact.setVisible(true);
+
     }
 
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == loginSelect) {
-            f.getContentPane().removeAll();
-            f.revalidate();
-            f.repaint();
-            loginPage();
-
-
+    public void showAllContacts() {
+        List<Contact> ret = new ArrayList<Contact>();
+        ret = contactService.getContacts();
+        if(ret.size() == 0){
+            JOptionPane.showMessageDialog(f, "No Contacts found", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        if(e.getSource() == searchButton) {
+        else {
+            String[][] data = new String[ret.size() + 1][4];
+            data[0][0] = "ID";
+            data[0][1] = "First Name";
+            data[0][2] = "Middle Name";
+            data[0][3] = "Last Name";
+            System.out.println(ret.size());
+            for (int i = 1; i <= ret.size(); i++) {
+                Contact d = ret.get(i - 1);
+                data[i][0] = d.getContactId();
+                data[i][1] = d.getFname();
+                data[i][2] = d.getMname();
+                data[i][3] = d.getLname();
+            }
+            String[] columns = {"ID", "First Name", "Middle Name", "Last Name"};
 
+            searchResults = new JFrame();
+            searchResults.setSize(1280, 600);
+            searchResults.setPreferredSize(new Dimension(1000, 500));
+            searchResults.setLayout(null);
+
+            JTable table = new JTable(data, columns);
+            table.setBounds(20, 20, 1280, 570);
+            table.getColumnModel().getColumn(0).setPreferredWidth(150);
+            table.getColumnModel().getColumn(1).setPreferredWidth(350);
+            table.getColumnModel().getColumn(2).setPreferredWidth(350);
+            table.getColumnModel().getColumn(3).setPreferredWidth(350);
+
+
+
+
+
+            JScrollPane sp = new JScrollPane();
+            sp.setBounds(0, 0, 1280, 570);
+            sp.setViewportView(table);
+            searchResults.add(sp);
+            //searchResults.add(table);
+            searchResults.setVisible(true);
+        }
+    }
+    
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == addContact) {
+            addContactPage();
+        }
+
+        if(e.getSource() == showContacts) {
+            showAllContacts();
         }
     }
 
