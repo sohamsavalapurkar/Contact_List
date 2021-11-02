@@ -93,7 +93,7 @@ public class GUI implements ActionListener{
     public void addContactPage() {
         contact = new JFrame();
         contact.setSize(800,600);
-        contact.setLayout(new GridLayout(12,1));
+        contact.setLayout(new GridLayout(18,1));
 
         JLabel firstNameLabel = new JLabel("First Name", SwingConstants.CENTER);
         JLabel middleNameLabel = new JLabel("Middle Name", SwingConstants.CENTER);
@@ -214,8 +214,10 @@ public class GUI implements ActionListener{
                 j = new JPanel();
                 j.setLayout(new GridLayout(1,3));
                 zipCode = new JTextField();
+                blankLabel = new JLabel("",SwingConstants.CENTER);
                 j.add(zipCodeLabel);
                 j.add(zipCode);
+                j.add(blankLabel);
                 contact.add(j);
 
                 contact.repaint();
