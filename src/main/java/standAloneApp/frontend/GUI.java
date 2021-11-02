@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -183,6 +185,7 @@ public class GUI implements ActionListener{
         j = new JPanel();
         j.setLayout(new GridLayout(1,1));
         insertContact = new JButton("Add Contact");
+        insertContact.addActionListener(this);
         j.add(insertContact);
         contact.add(j);
 
@@ -198,12 +201,7 @@ public class GUI implements ActionListener{
             JOptionPane.showMessageDialog(f, "No Contacts found", "Error", JOptionPane.ERROR_MESSAGE);
         }
         else {
-            String[][] data = new String[ret.size() + 1][4];
-            data[0][0] = "ID";
-            data[0][1] = "First Name";
-            data[0][2] = "Middle Name";
-            data[0][3] = "Last Name";
-            System.out.println(ret.size());
+            String[][] data = new String[ret.size() + 1][5];
             for (int i = 1; i <= ret.size(); i++) {
                 Contact d = ret.get(i - 1);
                 data[i][0] = d.getContactId();
@@ -225,9 +223,19 @@ public class GUI implements ActionListener{
             table.getColumnModel().getColumn(2).setPreferredWidth(350);
             table.getColumnModel().getColumn(3).setPreferredWidth(350);
 
+            table.setRowSelectionAllowed(true);
 
 
+            table.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent me) {
+                       // to detect doble click events
+                    JTable target = (JTable)me.getSource();
+                    int row = target.getSelectedRow();
+                    int column = 0;
+                    JOptionPane.showMessageDialog(null, table.getValueAt(row, column)); // get the value of a row and column.
 
+                }
+            });
 
             JScrollPane sp = new JScrollPane();
             sp.setBounds(0, 0, 1280, 570);
@@ -235,6 +243,7 @@ public class GUI implements ActionListener{
             searchResults.add(sp);
             //searchResults.add(table);
             searchResults.setVisible(true);
+
         }
     }
     
