@@ -93,7 +93,9 @@ public class GUI implements ActionListener{
     public void addContactPage() {
         contact = new JFrame();
         contact.setSize(800,600);
-        contact.setLayout(new GridLayout(18,1));
+        contact.setLayout(new GridLayout(1,1));
+        JPanel contactPanel = new JPanel();
+        contactPanel.setLayout(new GridLayout(400,1));
 
         JLabel firstNameLabel = new JLabel("First Name", SwingConstants.CENTER);
         JLabel middleNameLabel = new JLabel("Middle Name", SwingConstants.CENTER);
@@ -102,7 +104,6 @@ public class GUI implements ActionListener{
         JLabel cityLabel = new JLabel("City", SwingConstants.CENTER);
         JLabel stateLabel = new JLabel("State", SwingConstants.CENTER);
         JLabel zipCodeLabel = new JLabel("Zip Code", SwingConstants.CENTER);
-
         JLabel phoneLabel = new JLabel("Phone", SwingConstants.CENTER);
 
         JPanel j = new JPanel();
@@ -112,7 +113,7 @@ public class GUI implements ActionListener{
         j.add(firstNameLabel);
         j.add(firstName);
         j.add(blankLabel);
-        contact.add(j);
+        contactPanel.add(j);
 
         j = new JPanel();
         j.setLayout(new GridLayout(1,3));
@@ -122,7 +123,7 @@ public class GUI implements ActionListener{
         j.add(middleNameLabel);
         j.add(middleName);
         j.add(blankLabel);
-        contact.add(j);
+        contactPanel.add(j);
 
         j = new JPanel();
         j.setLayout(new GridLayout(1,3));
@@ -132,7 +133,7 @@ public class GUI implements ActionListener{
         j.add(lastNameLabel);
         j.add(lastName);
         j.add(blankLabel);
-        contact.add(j);
+        contactPanel.add(j);
 
         j = new JPanel();
         j.setLayout(new GridLayout(1,3));
@@ -143,7 +144,7 @@ public class GUI implements ActionListener{
         String menu[] = {"Home", "Work", "Other"};
         searchMenu = new JComboBox(menu);
         j.add(searchMenu);
-        contact.add(j);
+        contactPanel.add(j);
 
 
         j = new JPanel();
@@ -153,7 +154,7 @@ public class GUI implements ActionListener{
         j.add(cityLabel);
         j.add(city);
         j.add(blankLabel);
-        contact.add(j);
+        contactPanel.add(j);
 
         j = new JPanel();
         j.setLayout(new GridLayout(1,3));
@@ -162,7 +163,7 @@ public class GUI implements ActionListener{
         j.add(stateLabel);
         j.add(state);
         j.add(blankLabel);
-        contact.add(j);
+        contactPanel.add(j);
 
         j = new JPanel();
         j.setLayout(new GridLayout(1,3));
@@ -171,7 +172,7 @@ public class GUI implements ActionListener{
         j.add(zipCode);
         addAddress = new JButton("Add Address");
         j.add(addAddress);
-        contact.add(j);
+        contactPanel.add(j);
 
         addAddress.addActionListener(new ActionListener(){
             @Override
@@ -190,7 +191,7 @@ public class GUI implements ActionListener{
                 String menu[] = {"Home", "Work", "Other"};
                 searchMenu = new JComboBox(menu);
                 j.add(searchMenu);
-                contact.add(j);
+                contactPanel.add(j);
 
 
                 j = new JPanel();
@@ -200,7 +201,7 @@ public class GUI implements ActionListener{
                 j.add(cityLabel);
                 j.add(city);
                 j.add(blankLabel);
-                contact.add(j);
+                contactPanel.add(j);
 
                 j = new JPanel();
                 j.setLayout(new GridLayout(1,3));
@@ -209,7 +210,7 @@ public class GUI implements ActionListener{
                 j.add(stateLabel);
                 j.add(state);
                 j.add(blankLabel);
-                contact.add(j);
+                contactPanel.add(j);
 
                 j = new JPanel();
                 j.setLayout(new GridLayout(1,3));
@@ -218,7 +219,7 @@ public class GUI implements ActionListener{
                 j.add(zipCodeLabel);
                 j.add(zipCode);
                 j.add(blankLabel);
-                contact.add(j);
+                contactPanel.add(j);
 
                 contact.repaint();
                 contact.setVisible(true);
@@ -234,16 +235,21 @@ public class GUI implements ActionListener{
         String phoneM[] = {"Home", "Work", "Other"};
         phoneMenu = new JComboBox(menu);
         j.add(phoneMenu);
-        contact.add(j);
+        contactPanel.add(j);
 
         j = new JPanel();
         j.setLayout(new GridLayout(1,1));
         insertContact = new JButton("Add Contact");
         insertContact.addActionListener(this);
         j.add(insertContact);
-        contact.add(j);
+        contactPanel.add(j);
 
+        JScrollPane sp = new JScrollPane();
+        sp.setBounds(0, 0, 800, 570);
 
+        sp.setViewportView(contactPanel);
+
+        contact.add(sp);
         contact.setVisible(true);
 
     }
