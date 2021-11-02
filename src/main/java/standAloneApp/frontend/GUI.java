@@ -110,11 +110,6 @@ public class GUI implements ActionListener{
         j.add(blankLabel);
         contact.add(j);
 
-        /*int x = (contact.getWidth()-firstName.getWidth())/2;
-        firstName.setLocation(x,100);
-        firstNameLabel.setSize(100,30);
-        firstNameLabel.setLocation((x-100), 100);*/
-
         j = new JPanel();
         j.setLayout(new GridLayout(1,3));
         middleName = new JTextField();
@@ -124,12 +119,6 @@ public class GUI implements ActionListener{
         j.add(middleName);
         j.add(blankLabel);
         contact.add(j);
-
-
-        /*x = (contact.getWidth()-middleName.getWidth())/2;
-        middleName.setLocation(x, 200);
-        middleNameLabel.setSize(100,30);
-        middleNameLabel.setLocation((x-100), 200);*/
 
         j = new JPanel();
         j.setLayout(new GridLayout(1,3));
@@ -141,29 +130,17 @@ public class GUI implements ActionListener{
         j.add(blankLabel);
         contact.add(j);
 
-        /*x = (contact.getWidth()-lastName.getWidth())/2;
-        lastName.setLocation(x, 300);
-        lastNameLabel.setSize(100,30);
-        lastNameLabel.setLocation((x-100), 300);*/
-
         j = new JPanel();
         j.setLayout(new GridLayout(1,3));
         address = new JTextField();
         address.setSize(300, 100);
-
         j.add(addressLabel);
         j.add(address);
-
         String menu[] = {"Home", "Work", "Other"};
         searchMenu = new JComboBox(menu);
-
         j.add(searchMenu);
-
         contact.add(j);
-       /*x = (contact.getWidth()-numberOfCopies.getWidth())/2;
-        numberOfCopies.setLocation(x, 400);
-        numberOfCopiesLabel.setSize(100,30);
-        numberOfCopiesLabel.setLocation((x-100), 400);*/
+
 
         j = new JPanel();
         j.setLayout(new GridLayout(1,3));
@@ -209,27 +186,7 @@ public class GUI implements ActionListener{
         j.add(insertContact);
         contact.add(j);
 
-        /*j.add(firstName);
-        j.add(firstNameLabel);
-        j.add(middleName);
-        j.add(middleNameLabel);
-        j.add(lastName);
-        j.add(lastNameLabel);
-        j.add(numberOfCopies);
-        j.add(numberOfCopiesLabel);
 
-        JPanel j1 = new JPanel();
-        j1.setLayout(new BoxLayout(j1, BoxLayout.X_AXIS));
-        j1.add(firstName);
-        j1.add(firstNameLabel);
-        j1.add(middleName);
-        j1.add(middleNameLabel);
-        j1.add(lastName);
-        j1.add(lastNameLabel);
-        j1.add(numberOfCopies);
-        j1.add(numberOfCopiesLabel);
-        contact.add(j);
-        contact.add(j1);*/
         contact.setVisible(true);
 
     }
