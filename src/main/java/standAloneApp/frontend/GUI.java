@@ -173,6 +173,56 @@ public class GUI implements ActionListener{
         j.add(addAddress);
         contact.add(j);
 
+        addAddress.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                JLabel addressLabel = new JLabel("Address", SwingConstants.CENTER);
+                JLabel cityLabel = new JLabel("City", SwingConstants.CENTER);
+                JLabel stateLabel = new JLabel("State", SwingConstants.CENTER);
+                JLabel zipCodeLabel = new JLabel("Zip Code", SwingConstants.CENTER);
+                
+                JPanel j = new JPanel();
+                j.setLayout(new GridLayout(1,3));
+                address = new JTextField();
+                address.setSize(300, 100);
+                j.add(addressLabel);
+                j.add(address);
+                String menu[] = {"Home", "Work", "Other"};
+                searchMenu = new JComboBox(menu);
+                j.add(searchMenu);
+                contact.add(j);
+
+
+                j = new JPanel();
+                j.setLayout(new GridLayout(1,3));
+                city = new JTextField();
+                blankLabel = new JLabel("",SwingConstants.CENTER);
+                j.add(cityLabel);
+                j.add(city);
+                j.add(blankLabel);
+                contact.add(j);
+
+                j = new JPanel();
+                j.setLayout(new GridLayout(1,3));
+                state = new JTextField();
+                blankLabel = new JLabel("",SwingConstants.CENTER);
+                j.add(stateLabel);
+                j.add(state);
+                j.add(blankLabel);
+                contact.add(j);
+
+                j = new JPanel();
+                j.setLayout(new GridLayout(1,3));
+                zipCode = new JTextField();
+                j.add(zipCodeLabel);
+                j.add(zipCode);
+                contact.add(j);
+
+                contact.repaint();
+                contact.setVisible(true);
+            }
+        });
+
         j = new JPanel();
         j.setLayout(new GridLayout(1,3));
         phone = new JTextField();
