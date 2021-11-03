@@ -13,16 +13,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class GUI implements ActionListener{
     JFrame f = new JFrame();
     JFrame contact, searchResults;
-    JButton login, addContact, searchButton, showContacts, addAddress, insertContact, deleteAddress, addPhone, showUserDetails, issuedBook, returnedBook, addedBook, addedUser, logout;
+    JButton login, addContact, searchButton, showContacts, addAddress, insertContact, updateContact, addPhone, deleteContact, issuedBook, returnedBook, addedBook, addedUser, logout;
     JLabel blankLabel;
 
     List<JTextField> address, phone, city, state, zipCode;
@@ -311,8 +309,8 @@ public class GUI implements ActionListener{
         }
         else {
             String[][] data = new String[ret.size() + 1][5];
-            for (int i = 1; i <= ret.size(); i++) {
-                Contact d = ret.get(i - 1);
+            for (int i = 0; i < ret.size(); i++) {
+                Contact d = ret.get(i);
                 data[i][0] = d.getContactId();
                 data[i][1] = d.getFname();
                 data[i][2] = d.getMname();
@@ -377,10 +375,7 @@ public class GUI implements ActionListener{
             JLabel firstNameLabel = new JLabel("First Name", SwingConstants.CENTER);
             JLabel middleNameLabel = new JLabel("Middle Name", SwingConstants.CENTER);
             JLabel lastNameLabel = new JLabel("Last Name", SwingConstants.CENTER);
-            JLabel addressLabel = new JLabel("Address", SwingConstants.CENTER);
-            JLabel cityLabel = new JLabel("City", SwingConstants.CENTER);
-            JLabel stateLabel = new JLabel("State", SwingConstants.CENTER);
-            JLabel zipCodeLabel = new JLabel("Zip Code", SwingConstants.CENTER);
+
             JLabel phoneLabel = new JLabel("Phone", SwingConstants.CENTER);
 
             final JPanel[] j = {new JPanel()};
@@ -418,47 +413,74 @@ public class GUI implements ActionListener{
             JPanel addressPanel = new JPanel();
             addressPanel.setLayout(new BoxLayout(addressPanel,BoxLayout.Y_AXIS));
 
-            j[0] = new JPanel();
-            j[0].setLayout(new GridLayout(1,3));
-            address.add(new JTextField());
-            address.get(0).setSize(300, 100);
-            j[0].add(addressLabel);
-            j[0].add(address.get(0));
-            String menu[] = {"Home", "Work", "Other"};
-            searchMenu.add(new JComboBox(menu));
-            j[0].add(searchMenu.get(0));
-            addressPanel.add(j[0]);
+            Set<Address> addresses = contact1.getAddress();
+            Iterator<Address> it = addresses.iterator();
+            final int[] i = {0};
+
+            while(it.hasNext()) {
+                JLabel addressLabel = new JLabel("Address", SwingConstants.CENTER);
+                JLabel cityLabel = new JLabel("City", SwingConstants.CENTER);
+                JLabel stateLabel = new JLabel("State", SwingConstants.CENTER);
+                JLabel zipCodeLabel = new JLabel("Zip Code", SwingConstants.CENTER);
+                Address a = it.next();
+                j[0] = new JPanel();
+                j[0].setLayout(new GridLayout(1,3));
+                address.add(new JTextField());
+                address.get(i[0]).setSize(300, 100);
+                address.get(i[0]).setText(a.getAddress());
+                j[0].add(addressLabel);
+                j[0].add(address.get(i[0]));
+                String menu[] = {"HOME", "WORK", "OTHER"};
+                searchMenu.add(new JComboBox(menu));
+                searchMenu.get(i[0]).setSelectedItem(a.getAddressType());
+                System.out.println(a.getAddressType());
+                j[0].add(searchMenu.get(i[0]));
+                addressPanel.add(j[0]);
 
 
-            j[0] = new JPanel();
-            j[0].setLayout(new GridLayout(1,3));
-            city.add(new JTextField());
-            blankLabel = new JLabel("",SwingConstants.CENTER);
-            j[0].add(cityLabel);
-            j[0].add(city.get(0));
-            j[0].add(blankLabel);
-            addressPanel.add(j[0]);
+                j[0] = new JPanel();
+                j[0].setLayout(new GridLayout(1,3));
+                city.add(new JTextField());
+                city.get(i[0]).setText(a.getCity());
+                blankLabel = new JLabel("",SwingConstants.CENTER);
+                j[0].add(cityLabel);
+                j[0].add(city.get(i[0]));
+                j[0].add(blankLabel);
+                addressPanel.add(j[0]);
 
-            j[0] = new JPanel();
-            j[0].setLayout(new GridLayout(1,3));
-            state.add(new JTextField());
-            blankLabel = new JLabel("",SwingConstants.CENTER);
-            j[0].add(stateLabel);
-            j[0].add(state.get(0));
-            j[0].add(blankLabel);
-            addressPanel.add(j[0]);
+                j[0] = new JPanel();
+                j[0].setLayout(new GridLayout(1,3));
+                state.add(new JTextField());
+                state.get(i[0]).setText(a.getState());
+                blankLabel = new JLabel("",SwingConstants.CENTER);
+                j[0].add(stateLabel);
+                j[0].add(state.get(i[0]));
+                j[0].add(blankLabel);
+                addressPanel.add(j[0]);
 
-            j[0] = new JPanel();
-            j[0].setLayout(new GridLayout(1,3));
-            zipCode.add(new JTextField());
-            j[0].add(zipCodeLabel);
-            j[0].add(zipCode.get(0));
-            addAddress = new JButton("Add Address");
-            j[0].add(addAddress);
-            addressPanel.add(j[0]);
+                j[0] = new JPanel();
+                j[0].setLayout(new GridLayout(1,3));
+                zipCode.add(new JTextField());
+                zipCode.get(i[0]).setText(a.getZip());
+                j[0].add(zipCodeLabel);
+                j[0].add(zipCode.get(i[0]));
+                if(!it.hasNext()) {
+                    addAddress = new JButton("Add Address");
+                    j[0].add(addAddress);
+
+                }
+                else {
+                    blankLabel = new JLabel("",SwingConstants.CENTER);
+                    j[0].add(blankLabel);
+                }
+                addressPanel.add(j[0]);
+
+                i[0]++;
+            }
+
 
             contactPanel.add(addressPanel);
-            final int[] i = {1};
+
             addAddress.addActionListener(new ActionListener(){
                 @Override
                 public void actionPerformed(ActionEvent e){
@@ -473,7 +495,7 @@ public class GUI implements ActionListener{
                     address.get(i[0]).setSize(300, 100);
                     j.add(addressLabel);
                     j.add(address.get(i[0]));
-                    String menu[] = {"Home", "Work", "Other"};
+                    String menu[] = {"HOME", "WORK", "OTHER"};
                     searchMenu.add(new JComboBox(menu));
                     j.add(searchMenu.get(i[0]));
                     addressPanel.add(j);
@@ -517,14 +539,16 @@ public class GUI implements ActionListener{
             JPanel phonePanel = new JPanel();
             phonePanel.setLayout(new BoxLayout(phonePanel,BoxLayout.Y_AXIS));
 
+
+
             j[0] = new JPanel();
             j[0].setLayout(new GridLayout(1,3));
             phone.add(new JTextField());
             phone.get(0).setSize(300, 100);
             j[0].add(phoneLabel);
             j[0].add(phone.get(0));
-            String phoneM[] = {"Home", "Work", "Other"};
-            phoneMenu.add(new JComboBox(menu));
+            String phoneM[] = {"HOME", "WORK", "OTHER"};
+            phoneMenu.add(new JComboBox(phoneM));
             j[0].add(phoneMenu.get(0));
             phonePanel.add(j[0]);
 
@@ -552,8 +576,8 @@ public class GUI implements ActionListener{
                     phone.get(phoneCounter[0]).setSize(300, 100);
                     j.add(phoneLabel);
                     j.add(phone.get(phoneCounter[0]));
-                    String phoneM[] = {"Home", "Work", "Other"};
-                    phoneMenu.add(new JComboBox(menu));
+                    String phoneM[] = {"HOME", "WORK", "OTHER"};
+                    phoneMenu.add(new JComboBox(phoneM));
                     j.add(phoneMenu.get(phoneCounter[0]));
                     phonePanel.add(j);
                     contact.repaint();
@@ -563,10 +587,14 @@ public class GUI implements ActionListener{
             });
 
             j[0] = new JPanel();
-            j[0].setLayout(new GridLayout(1,1));
-            insertContact = new JButton("Add Contact");
-            insertContact.addActionListener(this);
-            j[0].add(insertContact);
+            j[0].setLayout(new GridLayout(1,2));
+            updateContact = new JButton("Update Contact");
+            updateContact.addActionListener(this);
+
+            deleteContact = new JButton("Delete Contact");
+            deleteContact.addActionListener(this);
+            j[0].add(updateContact);
+            j[0].add(deleteContact);
             contactPanel.add(j[0]);
 
             JScrollPane sp = new JScrollPane();
