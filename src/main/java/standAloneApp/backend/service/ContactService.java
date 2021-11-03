@@ -22,8 +22,9 @@ public class ContactService {
         return (List<Contact>) contactRepository.findAll();
     }
 
-    public Optional<Contact> getContactById(String id) {
-        return contactRepository.findById(id);
+    public Contact getContactById(String id) {
+        Contact contact =  contactRepository.findById(id).orElse(null);
+        return contact;
     }
 
 
