@@ -321,7 +321,7 @@ public class GUI implements ActionListener{
 
         j[0] = new JPanel();
         j[0].setLayout(new GridLayout(1,3));
-        DateFormat format = new SimpleDateFormat("yyyy-MMMM-dd");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         DateFormatter df = new DateFormatter(format);
         date.add(new JFormattedTextField(df));
         date.get(0).setSize(300, 100);
@@ -352,7 +352,7 @@ public class GUI implements ActionListener{
                 j[0] = new JPanel();
                 JLabel dateLabel = new JLabel("Date" + (dateCounter[0]+1), SwingConstants.CENTER);
                 j[0].setLayout(new GridLayout(1,3));
-                DateFormat format = new SimpleDateFormat("yyyy-MMMM-dd");
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 DateFormatter df = new DateFormatter(format);
                 date.add(new JFormattedTextField(df));
                 date.get(dateCounter[0]).setSize(300, 100);
@@ -790,6 +790,26 @@ public class GUI implements ActionListener{
 
         if(e.getSource() == showContacts) {
             showAllContacts();
+        }
+        if(e.getSource() == insertContact) {
+            Set<Address> addresses = new HashSet<>();
+            for(int i=0; i<address.size();i++) {
+                addresses.add(new Address(searchMenu.get(i).getSelectedItem().toString(), address.get(i).getText(), city.get(i).getText(), state.get(i).getText(),zipCode.get(i).getText()));
+            }
+            System.out.println(addresses.size());
+            Set<Phone> phones = new HashSet<>();
+            for(int i=0; i< phone.size(); i++) {
+                String[] phoneNumber = new String[3];
+                phoneNumber = phone.get(i).getText().split("-");
+                phones.add(new Phone(phoneMenu.get(i).getSelectedItem().toString(), phoneNumber[0].substring(1,4), phoneNumber[1] + "-" + phoneNumber[2]));
+            }
+
+            Set<Date> dates = new HashSet<>();
+            for(int i=0; i<dates.size();i++) {
+                dates.add(new Date(dateMenu.get(i).getSelectedItem().toString(), date.get(i).getText()));
+            }
+            System.out.println(contactService.insertContact(new Contact(firstName.getText(), middleName.getText(), lastName.getText(), addresses, dates, phones)));
+
         }
     }
 

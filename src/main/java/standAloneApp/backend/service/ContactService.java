@@ -27,5 +27,10 @@ public class ContactService {
         return contact;
     }
 
+    public String insertContact(Contact contact) {
+        contactRepository.save(contact);
+        return "Inserted Contact Successfully";
+    }
+
 
 }

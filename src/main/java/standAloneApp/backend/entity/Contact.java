@@ -52,11 +52,14 @@ public class Contact {
     @JoinColumn(name="contact_id")
     private Set<Phone> phone;
 
-    public Contact(String fname, String mname, String lname) {
+    public Contact( String fname, String mname, String lname, Set<Address> address, Set<Date> date, Set<Phone> phone) {
         this.setContactId(UUID.randomUUID().toString());
-        this.Fname = fname;
-        this.Mname = mname;
-        this.Lname = lname;
+        Fname = fname;
+        Mname = mname;
+        Lname = lname;
+        this.address = address;
+        this.date = date;
+        this.phone = phone;
     }
 
     public String getContactId() {
