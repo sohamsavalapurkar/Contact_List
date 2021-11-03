@@ -4,15 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import standAloneApp.backend.entity.Address;
 import standAloneApp.backend.entity.Contact;
+import standAloneApp.backend.entity.Phone;
 import standAloneApp.backend.service.ContactService;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
 import java.util.*;
 import java.util.List;
 
@@ -23,7 +26,8 @@ public class GUI implements ActionListener{
     JButton login, addContact, searchButton, showContacts, addAddress, insertContact, updateContact, addPhone, deleteContact, issuedBook, returnedBook, addedBook, addedUser, logout;
     JLabel blankLabel;
 
-    List<JTextField> address, phone, city, state, zipCode;
+    List<JTextField> address, city, state, zipCode;
+    List<JFormattedTextField> phone;
     JTextField searchBox, firstName, middleName, lastName;
     JPasswordField passwordField;
     List<JComboBox> searchMenu, phoneMenu;
@@ -239,9 +243,20 @@ public class GUI implements ActionListener{
         JPanel phonePanel = new JPanel();
         phonePanel.setLayout(new BoxLayout(phonePanel,BoxLayout.Y_AXIS));
 
+        MaskFormatter mask = null;
+        try {
+            // Create a MaskFormatter for accepting phone number, the # symbol accept
+            // only a number. We can also set the empty value with a place holder
+            // character.
+            mask = new MaskFormatter("(###)-###-####");
+            mask.setPlaceholderCharacter('_');
+        } catch (ParseException exception) {
+            exception.printStackTrace();
+        }
+
         j[0] = new JPanel();
         j[0].setLayout(new GridLayout(1,3));
-        phone.add(new JTextField());
+        phone.add(new JFormattedTextField(mask));
         phone.get(0).setSize(300, 100);
         j[0].add(phoneLabel);
         j[0].add(phone.get(0));
@@ -270,7 +285,17 @@ public class GUI implements ActionListener{
                 JPanel j = new JPanel();
                 JLabel phoneLabel = new JLabel("Phone", SwingConstants.CENTER);
                 j.setLayout(new GridLayout(1,3));
-                phone.add(new JTextField());
+                MaskFormatter mask = null;
+                try {
+                    // Create a MaskFormatter for accepting phone number, the # symbol accept
+                    // only a number. We can also set the empty value with a place holder
+                    // character.
+                    mask = new MaskFormatter("(###)-###-####");
+                    mask.setPlaceholderCharacter('_');
+                } catch (ParseException exception) {
+                    exception.printStackTrace();
+                }
+                phone.add(new JFormattedTextField(mask));
                 phone.get(phoneCounter[0]).setSize(300, 100);
                 j.add(phoneLabel);
                 j.add(phone.get(phoneCounter[0]));
@@ -376,7 +401,7 @@ public class GUI implements ActionListener{
             JLabel middleNameLabel = new JLabel("Middle Name", SwingConstants.CENTER);
             JLabel lastNameLabel = new JLabel("Last Name", SwingConstants.CENTER);
 
-            JLabel phoneLabel = new JLabel("Phone", SwingConstants.CENTER);
+
 
             final JPanel[] j = {new JPanel()};
             j[0].setLayout(new GridLayout(1,3));
@@ -539,18 +564,29 @@ public class GUI implements ActionListener{
             JPanel phonePanel = new JPanel();
             phonePanel.setLayout(new BoxLayout(phonePanel,BoxLayout.Y_AXIS));
 
+            Set<Phone> phoneNumbers = contact1.getPhone();
+            Iterator<Phone> itPhone = phoneNumbers.iterator();
+
+            final int[] phoneCounter = {0};
+            while(itPhone.hasNext()) {
+                JLabel phoneLabel = new JLabel("Phone", SwingConstants.CENTER);
+                Phone p = itPhone.next();
+                j[0] = new JPanel();
+                j[0].setLayout(new GridLayout(1,3));
+                phone.add(new JFormattedTextField());
+                phone.get(phoneCounter[0]).setSize(300, 100);
+                phone.get(phoneCounter[0]).setText("(" + p.getAreaCode() + ")" + "-" + p.getNumber());
+                j[0].add(phoneLabel);
+                j[0].add(phone.get(phoneCounter[0]));
+                String phoneM[] = {"HOME", "WORK", "OTHER"};
+                phoneMenu.add(new JComboBox(phoneM));
+                phoneMenu.get(phoneCounter[0]).setSelectedItem(p.getPhoneType());
+                j[0].add(phoneMenu.get(phoneCounter[0]));
+                phonePanel.add(j[0]);
+                phoneCounter[0]++;
+            }
 
 
-            j[0] = new JPanel();
-            j[0].setLayout(new GridLayout(1,3));
-            phone.add(new JTextField());
-            phone.get(0).setSize(300, 100);
-            j[0].add(phoneLabel);
-            j[0].add(phone.get(0));
-            String phoneM[] = {"HOME", "WORK", "OTHER"};
-            phoneMenu.add(new JComboBox(phoneM));
-            j[0].add(phoneMenu.get(0));
-            phonePanel.add(j[0]);
 
             j[0] = new JPanel();
             j[0].setLayout(new GridLayout(1,3));
@@ -565,14 +601,24 @@ public class GUI implements ActionListener{
             phonePanel.add(j[0]);
             contactPanel.add(phonePanel);
 
-            final int[] phoneCounter = {1};
+
             addPhone.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     JPanel j = new JPanel();
                     JLabel phoneLabel = new JLabel("Phone", SwingConstants.CENTER);
                     j.setLayout(new GridLayout(1,3));
-                    phone.add(new JTextField());
+                    MaskFormatter mask = null;
+                    try {
+                        // Create a MaskFormatter for accepting phone number, the # symbol accept
+                        // only a number. We can also set the empty value with a place holder
+                        // character.
+                        mask = new MaskFormatter("(###)-###-####");
+                        mask.setPlaceholderCharacter('_');
+                    } catch (ParseException exception) {
+                        exception.printStackTrace();
+                    }
+                    phone.add(new JFormattedTextField(mask));
                     phone.get(phoneCounter[0]).setSize(300, 100);
                     j.add(phoneLabel);
                     j.add(phone.get(phoneCounter[0]));
