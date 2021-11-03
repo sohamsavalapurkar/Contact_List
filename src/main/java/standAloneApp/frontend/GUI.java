@@ -805,7 +805,7 @@ public class GUI implements ActionListener{
             }
 
             Set<Date> dates = new HashSet<>();
-            for(int i=0; i<dates.size();i++) {
+            for(int i=0; i<date.size();i++) {
                 dates.add(new Date(dateMenu.get(i).getSelectedItem().toString(), date.get(i).getText()));
             }
             System.out.println(contactService.insertContact(new Contact(firstName.getText(), middleName.getText(), lastName.getText(), addresses, dates, phones)));
