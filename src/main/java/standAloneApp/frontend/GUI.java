@@ -426,7 +426,7 @@ public class GUI implements ActionListener{
                     JTable target = (JTable)me.getSource();
                     int row = target.getSelectedRow();
                     int column = 0;
-                    JOptionPane.showMessageDialog(null, table.getValueAt(row, column));
+                    //JOptionPane.showMessageDialog(null, table.getValueAt(row, column));
                     updateid = (String) table.getValueAt(row, column);
                     editContact(updateid);
 
