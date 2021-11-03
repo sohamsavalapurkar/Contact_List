@@ -838,6 +838,8 @@ public class GUI implements ActionListener{
         if(e.getSource() == deleteContact){
             JOptionPane.showMessageDialog(null, contactService.deleteContact(updateid));
             contact.dispatchEvent(new WindowEvent(contact, WindowEvent.WINDOW_CLOSING));
+            searchResults.dispatchEvent(new WindowEvent(searchResults, WindowEvent.WINDOW_CLOSING));
+            showAllContacts();
         }
     }
 
