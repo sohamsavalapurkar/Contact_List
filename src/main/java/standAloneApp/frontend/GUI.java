@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import standAloneApp.backend.entity.Address;
 import standAloneApp.backend.entity.Contact;
+import standAloneApp.backend.entity.Date;
 import standAloneApp.backend.entity.Phone;
 import standAloneApp.backend.service.ContactService;
 
@@ -193,10 +194,10 @@ public class GUI implements ActionListener{
         addAddress.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                JLabel addressLabel = new JLabel("Address" + i[0]+1, SwingConstants.CENTER);
-                JLabel cityLabel = new JLabel("City" + i[0]+1, SwingConstants.CENTER);
-                JLabel stateLabel = new JLabel("State" + i[0]+1, SwingConstants.CENTER);
-                JLabel zipCodeLabel = new JLabel("Zip Code" + i[0]+1, SwingConstants.CENTER);
+                JLabel addressLabel = new JLabel("Address" + (i[0]+1), SwingConstants.CENTER);
+                JLabel cityLabel = new JLabel("City" + (i[0]+1), SwingConstants.CENTER);
+                JLabel stateLabel = new JLabel("State" + (i[0]+1), SwingConstants.CENTER);
+                JLabel zipCodeLabel = new JLabel("Zip Code" + (i[0]+1), SwingConstants.CENTER);
                 
                 JPanel j = new JPanel();
                 j.setLayout(new GridLayout(1,3));
@@ -288,7 +289,7 @@ public class GUI implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel j = new JPanel();
-                JLabel phoneLabel = new JLabel("Phone" + phoneCounter[0]+1, SwingConstants.CENTER);
+                JLabel phoneLabel = new JLabel("Phone" + (phoneCounter[0]+1), SwingConstants.CENTER);
                 j.setLayout(new GridLayout(1,3));
                 MaskFormatter mask = null;
                 try {
@@ -349,7 +350,7 @@ public class GUI implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 j[0] = new JPanel();
-                JLabel dateLabel = new JLabel("Date" + dateCounter[0]+1, SwingConstants.CENTER);
+                JLabel dateLabel = new JLabel("Date" + (dateCounter[0]+1), SwingConstants.CENTER);
                 j[0].setLayout(new GridLayout(1,3));
                 DateFormat format = new SimpleDateFormat("yyyy-MMMM-dd");
                 DateFormatter df = new DateFormatter(format);
@@ -455,6 +456,9 @@ public class GUI implements ActionListener{
             state = new ArrayList<>();
             phoneMenu = new ArrayList<>();
             searchMenu = new ArrayList<>();
+            date = new ArrayList<>();
+            dateMenu = new ArrayList<>();
+
 
             JLabel firstNameLabel = new JLabel("First Name", SwingConstants.CENTER);
             JLabel middleNameLabel = new JLabel("Middle Name", SwingConstants.CENTER);
@@ -690,6 +694,72 @@ public class GUI implements ActionListener{
                     phoneCounter[0]++;
                 }
             });
+
+            JPanel datePanel = new JPanel();
+            datePanel.setLayout(new BoxLayout(datePanel,BoxLayout.Y_AXIS));
+
+
+            final int[] dateCounter = {0};
+
+            Set<Date> dates = contact1.getDate();
+            Iterator<Date> itDate = dates.iterator();
+
+            while(itDate.hasNext()) {
+                Date d = itDate.next();
+                JLabel dateLabel = new JLabel("Date" + (dateCounter[0]+1), SwingConstants.CENTER);
+                j[0] = new JPanel();
+                j[0].setLayout(new GridLayout(1,3));
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                DateFormatter df = new DateFormatter(format);
+                date.add(new JFormattedTextField(df));
+                date.get(dateCounter[0]).setText(d.getDate());
+                date.get(dateCounter[0]).setSize(300, 100);
+                j[0].add(dateLabel);
+                j[0].add(date.get(dateCounter[0]));
+                String dateM[] = {"birthdate", "anniversary", "Other"};
+                dateMenu.add(new JComboBox(dateM));
+                j[0].add(dateMenu.get(dateCounter[0]));
+                dateMenu.get(dateCounter[0]).setSelectedItem(d.getDateType());
+                datePanel.add(j[0]);
+
+            }
+
+            j[0] = new JPanel();
+            j[0].setLayout(new GridLayout(1,3));
+            blankLabel = new JLabel("", SwingConstants.CENTER);
+            j[0].add(blankLabel);
+            blankLabel = new JLabel("", SwingConstants.CENTER);
+            j[0].add(blankLabel);
+            addDate = new JButton("Add Date");
+            j[0].add(addDate);
+            datePanel.add(j[0]);
+
+            contactPanel.add(datePanel);
+
+
+
+            addDate.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    j[0] = new JPanel();
+                    JLabel dateLabel = new JLabel("Date" + dateCounter[0]+1, SwingConstants.CENTER);
+                    j[0].setLayout(new GridLayout(1,3));
+                    DateFormat format = new SimpleDateFormat("yyyy-MMMM-dd");
+                    DateFormatter df = new DateFormatter(format);
+                    date.add(new JFormattedTextField(df));
+                    date.get(dateCounter[0]).setSize(300, 100);
+                    j[0].add(dateLabel);
+                    j[0].add(date.get(dateCounter[0]));
+                    String dateM[] = {"birthdate", "anniversary", "Other"};
+                    dateMenu.add(new JComboBox(dateM));
+                    j[0].add(dateMenu.get(dateCounter[0]));
+                    datePanel.add(j[0]);
+                    contact.repaint();
+                    contact.setVisible(true);
+                    dateCounter[0]++;
+                }
+            });
+
 
             j[0] = new JPanel();
             j[0].setLayout(new GridLayout(1,2));
