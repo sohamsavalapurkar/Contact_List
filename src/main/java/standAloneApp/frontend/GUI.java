@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,6 +26,7 @@ import java.util.List;
 
 @Component
 public class GUI implements ActionListener{
+    String updateid = null;
     JFrame f = new JFrame();
     JFrame contact, searchResults;
     JButton addDate, addContact, searchButton, showContacts, addAddress, insertContact, updateContact, addPhone, deleteContact, issuedBook, returnedBook, addedBook, addedUser, logout;
@@ -425,7 +427,8 @@ public class GUI implements ActionListener{
                     int row = target.getSelectedRow();
                     int column = 0;
                     JOptionPane.showMessageDialog(null, table.getValueAt(row, column));
-                    editContact((String) table.getValueAt(row, column));
+                    updateid = (String) table.getValueAt(row, column);
+                    editContact(updateid);
 
                 }
             });
@@ -808,12 +811,35 @@ public class GUI implements ActionListener{
             for(int i=0; i<date.size();i++) {
                 dates.add(new Date(dateMenu.get(i).getSelectedItem().toString(), date.get(i).getText()));
             }
-            System.out.println(contactService.insertContact(new Contact(firstName.getText(), middleName.getText(), lastName.getText(), addresses, dates, phones)));
+            JOptionPane.showMessageDialog(null, contactService.insertContact(new Contact(firstName.getText(), middleName.getText(), lastName.getText(), addresses, dates, phones)));
+            // System.out.println(contactService.insertContact(new Contact(firstName.getText(), middleName.getText(), lastName.getText(), addresses, dates, phones)));
+        }
+        if(e.getSource() == updateContact) {
+            Set<Address> addresses = new HashSet<>();
+            for(int i=0; i<address.size();i++) {
+                addresses.add(new Address(searchMenu.get(i).getSelectedItem().toString(), address.get(i).getText(), city.get(i).getText(), state.get(i).getText(),zipCode.get(i).getText()));
+            }
+            System.out.println(addresses.size());
+            Set<Phone> phones = new HashSet<>();
+            for(int i=0; i< phone.size(); i++) {
+                String[] phoneNumber = new String[3];
+                phoneNumber = phone.get(i).getText().split("-");
+                phones.add(new Phone(phoneMenu.get(i).getSelectedItem().toString(), phoneNumber[0].substring(1,4), phoneNumber[1] + "-" + phoneNumber[2]));
+            }
 
+            Set<Date> dates = new HashSet<>();
+            for(int i=0; i<date.size();i++) {
+                dates.add(new Date(dateMenu.get(i).getSelectedItem().toString(), date.get(i).getText()));
+            }
+            JOptionPane.showMessageDialog(null, contactService.updateContact(new Contact(updateid, firstName.getText(), middleName.getText(), lastName.getText(), addresses, dates, phones)));
+            // System.out.println(contactService.insertContact(new Contact(updateid, firstName.getText(), middleName.getText(), lastName.getText(), addresses, dates, phones)));
+            contact.dispatchEvent(new WindowEvent(contact, WindowEvent.WINDOW_CLOSING));
+        }
+        if(e.getSource() == deleteContact){
+            JOptionPane.showMessageDialog(null, contactService.deleteContact(updateid));
+            contact.dispatchEvent(new WindowEvent(contact, WindowEvent.WINDOW_CLOSING));
         }
     }
-
-
 
     public GUI(){
 

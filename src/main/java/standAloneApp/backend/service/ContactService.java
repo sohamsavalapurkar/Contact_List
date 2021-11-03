@@ -32,5 +32,20 @@ public class ContactService {
         return "Inserted Contact Successfully";
     }
 
+    public String updateContact(Contact contact){
+        if (contactRepository.existsById(contact.getContactId())){
+            contactRepository.save(contact);
+            return "Contact Updated Successfully";
+        }
+        return "Failed to Update Contact";
+    }
+
+    public String deleteContact(String contactId){
+        if (contactRepository.existsById(contactId)){
+            contactRepository.deleteById(contactId);
+            return "Contact Deleted Successfully";
+        }
+        return "Failed to Delete Contact";
+    }
 
 }

@@ -62,6 +62,16 @@ public class Contact {
         this.phone = phone;
     }
 
+    public Contact(String contactId, String fname, String mname, String lname, Set<Address> address, Set<Date> date, Set<Phone> phone) {
+        this.setContactId(contactId);
+        Fname = fname;
+        Mname = mname;
+        Lname = lname;
+        this.address = address;
+        this.date = date;
+        this.phone = phone;
+    }
+
     public String getContactId() {
         return contactId;
     }
