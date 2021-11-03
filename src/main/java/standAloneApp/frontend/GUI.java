@@ -8,6 +8,7 @@ import standAloneApp.backend.entity.Phone;
 import standAloneApp.backend.service.ContactService;
 
 import javax.swing.*;
+import javax.swing.text.DateFormatter;
 import javax.swing.text.MaskFormatter;
 
 import java.awt.*;
@@ -15,7 +16,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
@@ -23,14 +26,14 @@ import java.util.List;
 public class GUI implements ActionListener{
     JFrame f = new JFrame();
     JFrame contact, searchResults;
-    JButton login, addContact, searchButton, showContacts, addAddress, insertContact, updateContact, addPhone, deleteContact, issuedBook, returnedBook, addedBook, addedUser, logout;
+    JButton addDate, addContact, searchButton, showContacts, addAddress, insertContact, updateContact, addPhone, deleteContact, issuedBook, returnedBook, addedBook, addedUser, logout;
     JLabel blankLabel;
 
     List<JTextField> address, city, state, zipCode;
-    List<JFormattedTextField> phone;
+    List<JFormattedTextField> phone, date;
     JTextField searchBox, firstName, middleName, lastName;
     JPasswordField passwordField;
-    List<JComboBox> searchMenu, phoneMenu;
+    List<JComboBox> searchMenu, phoneMenu, dateMenu;
 
 
     @Autowired
@@ -102,6 +105,8 @@ public class GUI implements ActionListener{
         state = new ArrayList<>();
         phoneMenu = new ArrayList<>();
         searchMenu = new ArrayList<>();
+        date = new ArrayList<>();
+        dateMenu = new ArrayList<>();
 
         JLabel firstNameLabel = new JLabel("First Name", SwingConstants.CENTER);
         JLabel middleNameLabel = new JLabel("Middle Name", SwingConstants.CENTER);
@@ -188,10 +193,10 @@ public class GUI implements ActionListener{
         addAddress.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                JLabel addressLabel = new JLabel("Address", SwingConstants.CENTER);
-                JLabel cityLabel = new JLabel("City", SwingConstants.CENTER);
-                JLabel stateLabel = new JLabel("State", SwingConstants.CENTER);
-                JLabel zipCodeLabel = new JLabel("Zip Code", SwingConstants.CENTER);
+                JLabel addressLabel = new JLabel("Address" + i[0]+1, SwingConstants.CENTER);
+                JLabel cityLabel = new JLabel("City" + i[0]+1, SwingConstants.CENTER);
+                JLabel stateLabel = new JLabel("State" + i[0]+1, SwingConstants.CENTER);
+                JLabel zipCodeLabel = new JLabel("Zip Code" + i[0]+1, SwingConstants.CENTER);
                 
                 JPanel j = new JPanel();
                 j.setLayout(new GridLayout(1,3));
@@ -260,7 +265,7 @@ public class GUI implements ActionListener{
         phone.get(0).setSize(300, 100);
         j[0].add(phoneLabel);
         j[0].add(phone.get(0));
-        String phoneM[] = {"Home", "Work", "Other"};
+        String phoneM[] = {"HOME", "WORK", "OTHER"};
         phoneMenu.add(new JComboBox(menu));
         j[0].add(phoneMenu.get(0));
         phonePanel.add(j[0]);
@@ -283,7 +288,7 @@ public class GUI implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 JPanel j = new JPanel();
-                JLabel phoneLabel = new JLabel("Phone", SwingConstants.CENTER);
+                JLabel phoneLabel = new JLabel("Phone" + phoneCounter[0]+1, SwingConstants.CENTER);
                 j.setLayout(new GridLayout(1,3));
                 MaskFormatter mask = null;
                 try {
@@ -309,12 +314,66 @@ public class GUI implements ActionListener{
             }
         });
 
+        JPanel datePanel = new JPanel();
+        datePanel.setLayout(new BoxLayout(datePanel,BoxLayout.Y_AXIS));
+        JLabel dateLabel = new JLabel("Date", SwingConstants.CENTER);
+
+        j[0] = new JPanel();
+        j[0].setLayout(new GridLayout(1,3));
+        DateFormat format = new SimpleDateFormat("yyyy-MMMM-dd");
+        DateFormatter df = new DateFormatter(format);
+        date.add(new JFormattedTextField(df));
+        date.get(0).setSize(300, 100);
+        j[0].add(dateLabel);
+        j[0].add(date.get(0));
+        String dateM[] = {"birthdate", "anniversary", "Other"};
+        dateMenu.add(new JComboBox(dateM));
+        j[0].add(dateMenu.get(0));
+        datePanel.add(j[0]);
+
+        j[0] = new JPanel();
+        j[0].setLayout(new GridLayout(1,3));
+        blankLabel = new JLabel("", SwingConstants.CENTER);
+        j[0].add(blankLabel);
+        blankLabel = new JLabel("", SwingConstants.CENTER);
+        j[0].add(blankLabel);
+        addDate = new JButton("Add Date");
+        j[0].add(addDate);
+        datePanel.add(j[0]);
+
+        contactPanel.add(datePanel);
+
+        final int[] dateCounter = {1};
+
+        addDate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                j[0] = new JPanel();
+                JLabel dateLabel = new JLabel("Date" + dateCounter[0]+1, SwingConstants.CENTER);
+                j[0].setLayout(new GridLayout(1,3));
+                DateFormat format = new SimpleDateFormat("yyyy-MMMM-dd");
+                DateFormatter df = new DateFormatter(format);
+                date.add(new JFormattedTextField(df));
+                date.get(dateCounter[0]).setSize(300, 100);
+                j[0].add(dateLabel);
+                j[0].add(date.get(dateCounter[0]));
+                String dateM[] = {"birthdate", "anniversary", "Other"};
+                dateMenu.add(new JComboBox(dateM));
+                j[0].add(dateMenu.get(dateCounter[0]));
+                datePanel.add(j[0]);
+                contact.repaint();
+                contact.setVisible(true);
+                dateCounter[0]++;
+            }
+        });
+
         j[0] = new JPanel();
         j[0].setLayout(new GridLayout(1,1));
         insertContact = new JButton("Add Contact");
         insertContact.addActionListener(this);
         j[0].add(insertContact);
         contactPanel.add(j[0]);
+
 
         JScrollPane sp = new JScrollPane();
         sp.setBounds(0, 0, 800, 570);
