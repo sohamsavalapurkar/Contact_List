@@ -870,7 +870,9 @@ public class GUI implements ActionListener{
                     while(itPhone.hasNext()) {
                         Phone p = itPhone.next();
                         contact.add(p.getAreaCode());
-                        contact.add(p.getNumber());
+                        String[] temp = p.getNumber().split("-");
+                        contact.add(temp[0]+temp[1]);
+                        contact.add(p.getAreaCode()+temp[0]+temp[1]);
                     }
                     boolean flag = true;
                     for(int j=0; j<search.length;j++) {
