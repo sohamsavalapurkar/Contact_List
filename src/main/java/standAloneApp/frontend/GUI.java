@@ -388,9 +388,7 @@ public class GUI implements ActionListener{
 
     }
 
-    public void showAllContacts() {
-        List<Contact> ret = new ArrayList<Contact>();
-        ret = contactService.getContacts();
+    public void showAllContacts(List<Contact> ret) {
         if(ret.size() == 0){
             JOptionPane.showMessageDialog(f, "No Contacts found", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -792,7 +790,8 @@ public class GUI implements ActionListener{
         }
 
         if(e.getSource() == showContacts) {
-            showAllContacts();
+            List<Contact> ret = contactService.getContacts();
+            showAllContacts(ret);
         }
         if(e.getSource() == insertContact) {
             Set<Address> addresses = new HashSet<>();
@@ -839,7 +838,7 @@ public class GUI implements ActionListener{
             JOptionPane.showMessageDialog(null, contactService.deleteContact(updateid));
             contact.dispatchEvent(new WindowEvent(contact, WindowEvent.WINDOW_CLOSING));
             searchResults.dispatchEvent(new WindowEvent(searchResults, WindowEvent.WINDOW_CLOSING));
-            showAllContacts();
+            showAllContacts(contactService.getContacts());
         }
         if(e.getSource() == searchButton) {
             String[] search = searchBox.getText().split(" ");
@@ -851,17 +850,20 @@ public class GUI implements ActionListener{
             else {
                 for(int i=0; i<contactList.size();i++) {
                     List<String> contact = new ArrayList<String>();
-                    contact.add(contactList.get(i).getFname());
-                    contact.add(contactList.get(i).getMname());
-                    contact.add(contactList.get(i).getLname());
+                    contact.add(contactList.get(i).getFname().toLowerCase());
+                    contact.add(contactList.get(i).getMname().toLowerCase());
+                    contact.add(contactList.get(i).getLname().toLowerCase());
                     Set<Address> address = contactList.get(i).getAddress();
                     Iterator<Address> itAddress = address.iterator();
                     while(itAddress.hasNext()) {
                         Address a = itAddress.next();
-                        contact.add(a.getAddress());
-                        contact.add(a.getCity());
-                        contact.add(a.getState());
-                        contact.add(a.getZip());
+                        String[] aList = a.getAddress().split(" ");
+                        for(int k=0;k<aList.length;k++) {
+                            contact.add(aList[k].toLowerCase());
+                        }
+                        contact.add(a.getCity().toLowerCase());
+                        contact.add(a.getState().toLowerCase());
+                        contact.add(a.getZip().toLowerCase());
                     }
                     Set<Phone> phone = contactList.get(i).getPhone();
                     Iterator<Phone> itPhone = phone.iterator();
@@ -872,7 +874,7 @@ public class GUI implements ActionListener{
                     }
                     boolean flag = true;
                     for(int j=0; j<search.length;j++) {
-                        if(contact.contains(search[j])) {
+                        if(contact.contains(search[j].toLowerCase())) {
                             resultList.add(contactList.get(i));
                             break;
                         }
@@ -883,6 +885,7 @@ public class GUI implements ActionListener{
                     System.out.println(resultList.get(i).getFname());
                 }
             }
+            showAllContacts(resultList);
         }
     }
 
