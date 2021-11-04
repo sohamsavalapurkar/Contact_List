@@ -841,6 +841,49 @@ public class GUI implements ActionListener{
             searchResults.dispatchEvent(new WindowEvent(searchResults, WindowEvent.WINDOW_CLOSING));
             showAllContacts();
         }
+        if(e.getSource() == searchButton) {
+            String[] search = searchBox.getText().split(" ");
+            List<Contact> contactList = contactService.getContacts();
+            List<Contact> resultList = new ArrayList<>();
+            if(contactList.size() == 0){
+                JOptionPane.showMessageDialog(f, "No Contacts found", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                for(int i=0; i<contactList.size();i++) {
+                    List<String> contact = new ArrayList<String>();
+                    contact.add(contactList.get(i).getFname());
+                    contact.add(contactList.get(i).getMname());
+                    contact.add(contactList.get(i).getLname());
+                    Set<Address> address = contactList.get(i).getAddress();
+                    Iterator<Address> itAddress = address.iterator();
+                    while(itAddress.hasNext()) {
+                        Address a = itAddress.next();
+                        contact.add(a.getAddress());
+                        contact.add(a.getCity());
+                        contact.add(a.getState());
+                        contact.add(a.getZip());
+                    }
+                    Set<Phone> phone = contactList.get(i).getPhone();
+                    Iterator<Phone> itPhone = phone.iterator();
+                    while(itPhone.hasNext()) {
+                        Phone p = itPhone.next();
+                        contact.add(p.getAreaCode());
+                        contact.add(p.getNumber());
+                    }
+                    boolean flag = true;
+                    for(int j=0; j<search.length;j++) {
+                        if(contact.contains(search[j])) {
+                            resultList.add(contactList.get(i));
+                            break;
+                        }
+                    }
+
+                }
+                for(int i=0;i<resultList.size();i++) {
+                    System.out.println(resultList.get(i).getFname());
+                }
+            }
+        }
     }
 
     public GUI(){
