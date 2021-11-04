@@ -881,9 +881,6 @@ public class GUI implements ActionListener{
                     }
 
                 }
-                for(int i=0;i<resultList.size();i++) {
-                    System.out.println(resultList.get(i).getFname());
-                }
             }
             showAllContacts(resultList);
         }
