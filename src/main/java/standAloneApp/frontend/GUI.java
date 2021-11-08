@@ -29,13 +29,12 @@ public class GUI implements ActionListener{
     String updateid = null;
     JFrame f = new JFrame();
     JFrame contact, searchResults;
-    JButton addDate, addContact, searchButton, showContacts, addAddress, insertContact, updateContact, addPhone, deleteContact, issuedBook, returnedBook, addedBook, addedUser, logout;
+    JButton addDate, addContact, searchButton, showContacts, addAddress, insertContact, updateContact, addPhone, deleteContact;
     JLabel blankLabel;
 
     List<JTextField> address, city, state, zipCode;
     List<JFormattedTextField> phone, date;
     JTextField searchBox, firstName, middleName, lastName;
-    JPasswordField passwordField;
     List<JComboBox> searchMenu, phoneMenu, dateMenu;
 
 
