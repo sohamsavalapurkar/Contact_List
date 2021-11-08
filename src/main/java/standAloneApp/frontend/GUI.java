@@ -512,8 +512,11 @@ public class GUI implements ActionListener{
                 JLabel stateLabel = new JLabel("State", SwingConstants.CENTER);
                 JLabel zipCodeLabel = new JLabel("Zip Code", SwingConstants.CENTER);
                 Address a = it.next();
+
+
+
                 j[0] = new JPanel();
-                j[0].setLayout(new GridLayout(1,3));
+                j[0].setLayout(new GridLayout(1, 3));
                 address.add(new JTextField());
                 address.get(i[0]).setSize(300, 100);
                 address.get(i[0]).setText(a.getAddress());
@@ -528,40 +531,40 @@ public class GUI implements ActionListener{
 
 
                 j[0] = new JPanel();
-                j[0].setLayout(new GridLayout(1,3));
+                j[0].setLayout(new GridLayout(1, 3));
                 city.add(new JTextField());
                 city.get(i[0]).setText(a.getCity());
-                blankLabel = new JLabel("",SwingConstants.CENTER);
+                blankLabel = new JLabel("", SwingConstants.CENTER);
                 j[0].add(cityLabel);
                 j[0].add(city.get(i[0]));
                 j[0].add(blankLabel);
                 addressPanel.add(j[0]);
 
                 j[0] = new JPanel();
-                j[0].setLayout(new GridLayout(1,3));
+                j[0].setLayout(new GridLayout(1, 3));
                 state.add(new JTextField());
                 state.get(i[0]).setText(a.getState());
-                blankLabel = new JLabel("",SwingConstants.CENTER);
+                blankLabel = new JLabel("", SwingConstants.CENTER);
                 j[0].add(stateLabel);
                 j[0].add(state.get(i[0]));
                 j[0].add(blankLabel);
                 addressPanel.add(j[0]);
 
                 j[0] = new JPanel();
-                j[0].setLayout(new GridLayout(1,3));
+                j[0].setLayout(new GridLayout(1, 3));
                 zipCode.add(new JTextField());
                 zipCode.get(i[0]).setText(a.getZip());
                 j[0].add(zipCodeLabel);
                 j[0].add(zipCode.get(i[0]));
-                if(!it.hasNext()) {
+                if (!it.hasNext()) {
                     addAddress = new JButton("Add Address");
                     j[0].add(addAddress);
 
-                }
-                else {
-                    blankLabel = new JLabel("",SwingConstants.CENTER);
+                } else {
+                    blankLabel = new JLabel("", SwingConstants.CENTER);
                     j[0].add(blankLabel);
                 }
+
                 addressPanel.add(j[0]);
 
                 i[0]++;
@@ -874,7 +877,6 @@ public class GUI implements ActionListener{
                         contact.add(temp[0]+temp[1]);
                         contact.add(p.getAreaCode()+temp[0]+temp[1]);
                     }
-                    boolean flag = true;
                     for(int j=0; j<search.length;j++) {
                         if(contact.contains(search[j].toLowerCase())) {
                             resultList.add(contactList.get(i));
