@@ -819,7 +819,12 @@ public class GUI implements ActionListener{
         if(e.getSource() == updateContact) {
             Set<Address> addresses = new HashSet<>();
             for(int i=0; i<address.size();i++) {
-                addresses.add(new Address(searchMenu.get(i).getSelectedItem().toString(), address.get(i).getText(), city.get(i).getText(), state.get(i).getText(),zipCode.get(i).getText()));
+                if(address.get(i).getText().replaceAll("\\s", "") != "" || city.get(i).getText().replaceAll("\\s", "") != "" || state.get(i).getText().replaceAll("\\s", "") != "" || zipCode.get(i).getText().replaceAll("\\s", "") != "") {
+                    System.out.print("Hello");
+                    addresses.add(new Address(searchMenu.get(i).getSelectedItem().toString(), address.get(i).getText(), city.get(i).getText(), state.get(i).getText(),zipCode.get(i).getText()));
+                }
+
+
             }
             System.out.println(addresses.size());
             Set<Phone> phones = new HashSet<>();
